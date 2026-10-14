@@ -1,71 +1,69 @@
-# Aster — Không gian dữ liệu của bạn
+# Aster 0.3 — Thư viện của bạn
 
-App Windows portable **0.2**. Ba mục chính **Ảnh · Office · Game**, cùng **Kho ứng dụng** dành riêng cho EXE. Giao diện tối xanh mực, nút gradient xanh–tím, cuộn theo pixel với easing, hỗ trợ giao diện sáng. Xây bằng WPF và .NET Framework 4.8; không cần Node, SDK hay trình duyệt để chạy.
-
-## Mở app
+App Windows portable cho **Ảnh · Office · Game**, quản lí file và phân loại file mới theo thư mục đích do bạn chọn.
 
 **[Tải Aster.exe](https://github.com/Hdn-test/Aster/releases/latest/download/Aster.exe)** · [Các bản phát hành](https://github.com/Hdn-test/Aster/releases)
 
-Tải hoặc chép **một file `Aster.exe`** từ GitHub Release rồi mở trực tiếp. Bản tại workspace có tên `Aster-0.2.exe` để không ghi đè phiên cũ đang mở. Giao diện và icon đã nhúng trong EXE; không cần giải nén, XAML hay config cạnh app. Windows 10/11 x64 có .NET Framework 4.8. Cấu hình và lịch sử được app tạo tại `%LOCALAPPDATA%\Aster` khi sử dụng.
+Một EXE, không cần file phụ. Windows 10/11 x64 có .NET Framework 4.8. Bản build tại workspace là `Aster-0.3.exe`; bản phát hành tên `Aster.exe`.
 
-## Những phần mới
+## Thư viện được lưu lâu dài
 
-- **Ảnh:** nguồn cá nhân, Downloads hoặc thư mục bạn thêm; bỏ qua thư mục game/app nhận diện được. Icon ứng dụng liên kết do Windows cung cấp; có thể dùng icon loại file nếu Windows không cung cấp icon app. Ảnh xem trước lớn 320 px, bấm **Phóng to ảnh** hoặc bấm ảnh để xem cửa sổ rộng.
-- **Office:** bộ lọc Word, Excel, PowerPoint, PDF. Phân loại tự động giữ thư mục nguồn/ngữ cảnh và tạo `Office/Word`, `Office/Excel`…
-- **Game:** chọn **Thêm thư mục** để khai báo nguồn game. Chỉ hiện một EXE/shortcut khởi chạy phù hợp mỗi thư mục, bỏ qua tên executable hỗ trợ như crash handler, updater, setup. Đây là nhận diện bằng quy tắc, có thể cần chọn EXE thủ công với game có nhiều launcher. Không di chuyển EXE game ra khỏi tài nguyên. Nút **Game trong thư mục** cho biết các điểm khởi chạy bên trong.
-- **Kho ứng dụng:** hai nhóm Ứng dụng / Game; **Thêm EXE**, mở, chọn nhiều và **Gỡ khỏi kho**. Chỉ nhận `.exe`; gỡ chỉ bỏ liên kết, không xóa file hay gỡ cài đặt.
-- **Ứng dụng đã cài:** danh mục Win32, icon, chọn bộ cài EXE/MSI/MSIX; lọc EXE/MSI trên Desktop. **Gỡ ứng dụng** mở trình gỡ của ứng dụng hoặc trang Apps của Windows; việc gỡ do người dùng tiếp tục trong trình đó. Bộ lọc EXE trên Desktop bao gồm cả app portable vì không thể xác định chắc mọi EXE là bộ cài.
-- **Startup / tray:** bật trong Settings rồi **Lưu cài đặt**. Startup dùng khóa `HKCU\Software\Microsoft\Windows\CurrentVersion\Run\Aster` trỏ tới vị trí EXE hiện tại. Nếu chuyển EXE sang chỗ khác, lưu lại cài đặt để cập nhật đường dẫn. Khi bật tray, thu nhỏ hoặc đóng cửa sổ sẽ ẩn, tác vụ tiếp tục chạy; nhấp đúp icon khay để mở lại, dùng **Thoát Aster** để đóng hẳn. Startup và tray mặc định tắt.
-- **Back / Forward:** nút trong Explorer và Alt+Left / Alt+Right.
-- **Gần đây:** chống trùng không phân biệt chữ hoa/thường, giữ đường dẫn, loại, dung lượng và lần mở. Thư mục và file hiện ở hai vùng riêng.
-- **Tác vụ:** bộ lọc trạng thái và loại thao tác, file hiện tại, nguồn/đích, thời gian bắt đầu và tổng số đang chạy/hoàn tất/lỗi.
-- **Dung lượng / phân loại:** các bước hướng dẫn, nhóm loại file, thư mục lớn, file lớn, file lâu không sửa; quét nặng theo yêu cầu.
+Mỗi mục Ảnh, Office và Game có hai chế độ riêng:
 
-Các phép kiểm tra chỉ dùng sandbox tạo dưới `artifacts`, không chạy bộ cài, không gỡ ứng dụng và không thay đổi startup thật của người dùng.
+- **Đã lưu:** file bạn chủ động thêm, tồn tại qua đổi tab và mở lại app, cho đến khi bạn gỡ liên kết.
+- **Kết quả quét:** kết quả tạm thời trong phiên hiện tại. Quét không tự lưu. Chọn file và bấm **Lưu mục đã chọn** để đưa vào thư viện.
 
-## Các màn hình
+**Thêm file** hoặc kéo thả để lưu liên kết. Có tên hiển thị, bộ sưu tập, yêu thích và tìm kiếm theo tên/đường dẫn/nhóm. Gỡ khỏi thư viện không xóa file gốc. File đã chuyển/xóa bên ngoài vẫn có liên kết kèm trạng thái **Không tìm thấy file**; không tự mất khỏi danh sách. Khi Aster di chuyển file, liên kết được cập nhật theo lịch sử di chuyển.
 
-- **Home:** thư mục nhanh, ổ đĩa và dung lượng thực, thư mục ghim, thư mục gần đây và file mở bằng Aster.
-- **Explorer:** nhập đường dẫn, điều hướng, danh sách/lưới, chọn nhiều, kéo thả để sao chép vào thư mục hiện tại, tạo thư mục, sao chép, di chuyển, đổi tên đơn/hàng loạt, Thùng rác, ZIP và giải nén ZIP. Bảng phải hiển thị thông tin và xem trước ảnh mà bộ giải mã Windows hỗ trợ.
-- **Search:** chỉ mục trong bộ nhớ của nguồn do bạn chọn, lọc tên/phần mở rộng, loại, dung lượng, ngày sửa đổi và đường dẫn. Lưu truy vấn kèm các bộ lọc. Thêm nguồn rồi bấm **Lập chỉ mục**; chỉ mục cần làm mới sau khi dữ liệu thay đổi.
-- **Storage:** chọn thư mục để phân tích tổng dung lượng, loại file, thư mục lớn và file lớn. Tìm file trùng bằng SHA-256 khi yêu cầu. Dữ liệu lâu không sửa dựa trên ngày sửa đổi, không phải lịch sử sử dụng thực tế.
-- **Transfers:** tối đa hai tác vụ đồng thời, tiến độ theo file hiện tại, tạm dừng, tiếp tục, hủy, lỗi và lịch sử. Hoàn tác toàn bộ các lần di chuyển chưa hoàn tác theo thứ tự ngược.
-- **Phân loại:** sửa nhóm đích và phần mở rộng, xem trước, phân loại ngay, bật/tắt theo dõi một nguồn trong phiên mở app.
-- **Ứng dụng & game:** danh mục Win32 từ Windows, tìm kiếm, sắp xếp bằng tiêu đề cột, chỉnh tên nhóm bằng nhấp đúp ô nhóm. Thêm `.lnk` hoặc `.exe` để mở ứng dụng từ Aster; đây cũng là cách thêm game hoặc ứng dụng Store vào thư viện.
-- **Settings:** chủ đề, font, kích thước hàng, hiệu ứng và nguồn lập chỉ mục. Phiên bản này dùng tiếng Việt và mở file bằng ứng dụng mặc định của Windows.
+Office có bộ lọc Word, Excel, PowerPoint, PDF cùng icon của ứng dụng liên kết. Game chỉ nhận EXE hoặc shortcut khởi chạy; nhấp đúp để mở, không cần nút Mở game riêng. Nguồn quét Game bỏ qua executable hỗ trợ như setup/crash handler và không liệt kê DLL, texture, âm thanh ingame. Game có nhiều launcher có thể cần chọn EXE thủ công.
 
-## Phân loại mà không trộn dữ liệu
+## Phân loại tự động làm gì?
 
-Ví dụ:
+Tính năng này **chuyển file thực tế**, khác với lưu liên kết trong thư viện.
+
+1. Chọn nguồn, ví dụ Downloads.
+2. Chọn hoặc tạo nơi lưu cho **5 nhóm**: Ảnh, Office, File nén, Video & âm thanh, Bộ cài. Bỏ chọn nhóm không cần dùng.
+3. **Xem trước** để thấy từng đường dẫn đích.
+4. **Chuyển file đã xem trước** để chạy một lần, hoặc **Bật theo dõi nguồn** để xử lí file mới ổn định trong phiên app.
+
+Bạn có thể chọn riêng từng nơi lưu hoặc đặt một thư mục gốc để tạo 5 nhóm bên dưới. Các thư mục đích phải riêng biệt; không trùng nguồn, không thuộc hệ thống/game/app và không qua symbolic link/junction. Thư mục đích nằm trong nguồn được phép vì Aster không quét thư mục con.
+
+Ví dụ khi giữ riêng nguồn:
 
 ```text
-Downloads/hinh.jpg               → Kho/Downloads/Ảnh/hinh.jpg
-Downloads/Dự án A/cover.png      → Kho/Downloads/Dự án A/Ảnh/cover.png
-Downloads/Dự án B/cover.png      → Kho/Downloads/Dự án B/Ảnh/cover.png
-Downloads/báo cáo.docx           → Kho/Downloads/Office/Word/báo cáo.docx
-Downloads/Game/texture.png       → giữ nguyên khi nhận diện thư mục game/app
+Downloads/hình.png       → Nơi lưu Ảnh/Downloads/hình.png
+Downloads/báo cáo.docx   → Nơi lưu Office/Downloads/Word/báo cáo.docx
+Downloads/dữ liệu.zip   → Nơi lưu File nén/Downloads/dữ liệu.zip
+Downloads/Game/...      → giữ nguyên toàn bộ
+Downloads/Dự án/...     → giữ nguyên toàn bộ
 ```
 
-Hai nguồn khác nhau có cùng tên được cấp thư mục riêng, ví dụ `Downloads` và `Downloads (2)`. Không ghi đè khi file trùng tên; thêm hậu tố số. Phần mở rộng chưa có quy tắc được giữ nguyên.
+**Chỉ file nằm trực tiếp trong nguồn được phân loại. Không đi vào bất kỳ thư mục con nào.** Nguồn được khai báo là game hoặc có dấu hiệu gói game/app sẽ bị từ chối. File EXE đã lưu vào thư viện Game cũng được loại khỏi phân loại. Mã nguồn hoặc định dạng chưa có trong 5 nhóm được giữ nguyên.
 
-Nguồn và đích phải nằm ngoài nhau. App bỏ qua thư mục hệ thống, AppData, Program Files, tên thư mục game phổ biến, thư mục có DLL, tài nguyên Unity và các gói chứa executable. Thư mục con chứa executable kèm dữ liệu được giữ nguyên; nguồn có executable và tài nguyên cũng được giữ nguyên, ngoại trừ nguồn có tên `Downloads` dành cho bộ cài rời. Việc nhận diện này dùng quy tắc bảo thủ, không phải một cơ sở dữ liệu nhận diện mọi game. Một bộ tài nguyên không có dấu hiệu cài đặt vẫn có thể được coi là dữ liệu cá nhân: hãy kiểm tra **Xem trước** trước khi bật tự động.
+Theo dõi mặc định tắt, không bật lại khi khởi động. Kiểm tra mỗi 8 giây; file phải ổn định qua hai lần kiểm tra, không mới sửa trong 10 giây và mở được độc quyền. File trùng tên được thêm hậu tố, không ghi đè. Có lịch sử và hoàn tác di chuyển.
 
-Tự động mặc định **tắt**, không bật lại khi khởi động. Khi bạn bật, app kiểm tra mỗi 8 giây; file phải ổn định qua hai lần kiểm tra, không mới sửa trong 10 giây, và mở được độc quyền. Nguồn/đích tự động không được đi qua junction hoặc symbolic link. Mỗi lần di chuyển hoàn tất được ghi lịch sử.
+## Các phần còn lại
 
-## Hành vi tác vụ
+- **Home:** ba thư viện chính, truy cập nhanh, ổ đĩa, thư mục ghim và lịch sử gần đây theo hàng căn trái có đường dẫn, loại, dung lượng, thời gian. Bỏ nội dung trang trí thừa ở góc chi tiết.
+- **Explorer:** danh sách/lưới, chọn nhiều, tạo thư mục, sao chép, di chuyển, đổi tên, Thùng rác, ZIP và giải nén ZIP. Back/Forward, phím tắt và kéo thả để sao chép.
+- **Chi tiết:** thu gọn khi chưa chọn mục; chọn file/thư mục để mở thông tin. Ảnh xem trước lớn và có cửa sổ phóng to. Bộ giải mã Windows quyết định những định dạng xem được.
+- **Search:** chỉ mục của nguồn bạn chọn, bộ lọc có icon, lọc tên/phần mở rộng, dung lượng, ngày, vị trí; lưu truy vấn cùng bộ lọc. Làm mới chỉ mục theo yêu cầu.
+- **Storage:** phân tích theo yêu cầu, loại file, thư mục lớn, file lớn, file lâu không sửa; tìm trùng nội dung bằng SHA-256 khi yêu cầu.
+- **Transfers:** nhóm theo trạng thái và loại thao tác, nguồn/đích, file hiện tại, tạm dừng/tiếp tục/hủy. Tối đa hai tác vụ đồng thời.
+- **Kho ứng dụng:** nhận EXE, chia Ứng dụng/Game, thêm/gỡ liên kết, đổi tên hiển thị, đổi nhóm, tìm kiếm và mở vị trí. Mục “Ứng dụng đã cài” đã được bỏ.
+- **Settings:** chủ đề tối/sáng, font, mật độ hàng, hiệu ứng, nguồn chỉ mục, khởi động cùng Windows và ẩn xuống khay hệ thống.
 
-- Sao chép theo khối 1 MB, chạy nền, file đang sao chép có đuôi tạm và được dọn nếu hủy.
-- Di chuyển cùng ổ dùng thao tác đổi vị trí của hệ thống, thường hoàn tất ngay; không có bước dài để tạm dừng.
-- Di chuyển khác ổ sao chép trước khi xóa nguồn. Nếu tác vụ thư mục bị hủy/lỗi, phần đích đã sao chép có thể còn lại, nguồn được giữ khi chưa hoàn tất.
-- Giải nén bị hủy/lỗi có thể để lại thư mục kết quả một phần. App chặn đường dẫn ZIP vượt khỏi thư mục đích.
-- Hoàn tác không ghi đè vị trí cũ và dừng nếu gặp xung đột. Hoàn tác thư mục chuyển khác ổ chưa được hỗ trợ; file khác ổ được hỗ trợ.
-- App dùng Thùng rác qua Windows; khả năng khôi phục phụ thuộc ổ đĩa và cấu hình Thùng rác.
-- Danh mục ứng dụng đọc registry Win32; chưa tự lập danh mục đầy đủ ứng dụng Store hoặc mọi game trong launcher. Thêm shortcut để quản lí chúng.
-- Chỉ mục giới hạn 50.000 file mỗi phiên; kết quả hiển thị tối đa 5.000. Chưa có chỉ mục nền USN, thumbnail lưới, đồng bộ đám mây, hỗ trợ RAR/7z, tùy chỉnh phím tắt hoặc chứng chỉ ký ứng dụng.
+Startup/tray mặc định tắt. Startup trỏ tới vị trí EXE hiện tại; sau khi chuyển EXE sang nơi khác, lưu lại cài đặt. Khi bật tray, thu nhỏ/đóng cửa sổ chỉ ẩn app, tác vụ vẫn chạy; nhấp đúp icon khay để mở lại, dùng **Thoát Aster** để đóng hẳn.
 
-Cấu hình và lịch sử nằm ở `%LOCALAPPDATA%\Aster`. App không gửi dữ liệu lên mạng. Ảnh xem trước được đọc xong rồi đóng file, tránh giữ khóa file. Chưa đưa ra cam kết tốc độ so với Windows Explorer vì chưa benchmark trên dữ liệu thực của bạn.
+## Lưu dữ liệu và giới hạn
 
-## Phát triển và kiểm tra
+`%LOCALAPPDATA%\Aster\library.json` lưu thư viện riêng để cấu hình từ phiên bản cũ không xóa danh sách. `settings.json` lưu giao diện, nguồn và nơi lưu; `history.json` lưu lịch sử di chuyển. App không tải dữ liệu của bạn lên mạng.
+
+Chưa hỗ trợ RAR/7z, thumbnail lưới đầy đủ, cloud sync, USN index hoặc ký ứng dụng. Chỉ mục tối đa 50.000 file, hiển thị tối đa 5.000 kết quả. Dữ liệu lâu không sửa dựa trên ngày sửa đổi, không đo mức sử dụng. Nhận diện game dùng quy tắc; nếu không chắc nguồn thuộc game, xem trước danh sách trước khi chạy.
+
+Sao chép có file tạm được dọn khi hủy. Di chuyển/giải nén thư mục bị hủy hoặc lỗi có thể giữ lại phần đích đã hoàn tất; nguồn thư mục chuyển khác ổ chỉ bị xóa sau khi sao chép hoàn tất. Hoàn tác dừng khi vị trí cũ đã có dữ liệu; hoàn tác thư mục khác ổ chưa hỗ trợ. Thùng rác phụ thuộc cấu hình Windows/ổ đĩa.
+
+## Build và kiểm tra
 
 ```powershell
 .\build.ps1
@@ -73,7 +71,7 @@ Cấu hình và lịch sử nằm ở `%LOCALAPPDATA%\Aster`. App không gửi d
 .\verify-ui.ps1
 ```
 
-`build.ps1` dùng trình biên dịch .NET Framework có sẵn trên máy Windows. Các kiểm tra tạo dữ liệu riêng dưới `artifacts`, không dùng file cá nhân. `verify-ui.ps1` render tám màn hình WPF thật, kiểm tra điều hướng, Explorer, chỉ mục, bộ lọc và cài đặt. Ảnh trong `artifacts` dùng dữ liệu thử, không phải thư viện file của bạn.
+Dùng trình biên dịch .NET Framework có sẵn trên Windows. Kiểm tra tạo sandbox dưới `artifacts`; không dùng file cá nhân, không chạy game/bộ cài, không gỡ phần mềm hay sửa startup thật. Bản 0.3 qua 52 kiểm tra xử lí dữ liệu và 49 kiểm tra giao diện, gồm lưu thư viện qua đổi tab/mở lại, không tự lưu kết quả quét, căn trái lịch sử và bảo vệ game/dự án.
 
-Tham khảo thiết kế: [Fluent 2 typography](https://fluent2.microsoft.design/typography), [Fluent 2 motion](https://fluent2.microsoft.design/motion), [Files](https://www.files.community/). Hai ảnh tham khảo của bạn định hướng bố cục ba vùng, bảng file và màu tối.
+Tham khảo bố cục: [Files](https://files.community/), [Fluent 2 layout](https://fluent2.microsoft.design/layout). Giao diện dùng Segoe UI, icon ứng dụng liên kết từ Windows và Segoe MDL2 Assets cho thao tác.
 

@@ -23,6 +23,9 @@ namespace Aster {
   public Dictionary<string,string> AppGroups = new Dictionary<string,string>();
   public Dictionary<string,string> SourceBuckets = new Dictionary<string,string>();
   public List<AppShortcut> Shortcuts = new List<AppShortcut>();
+  public List<LibraryItem> LibraryItems = new List<LibraryItem>();
+  public List<SortRoute> SortRoutes = SortRoute.Defaults();
+  public bool KeepSourceFolders = true;
   public string Theme = "Dark";
   public string Font = "Segoe UI";
   public double RowHeight = 48;
@@ -45,7 +48,7 @@ namespace Aster {
   public string Extensions {get;set;}
   public bool Enabled {get;set;}
   public static List<Rule> Defaults() { return new List<Rule> {
-   new Rule {Name="Ảnh",Extensions=".jpg .jpeg .png .webp .gif .heic .bmp .tiff",Enabled=true},
+   new Rule {Name="Ảnh",Extensions=".jpg .jpeg .png .webp .gif .heic .bmp .tiff .tif",Enabled=true},
    new Rule {Name="Video",Extensions=".mp4 .mov .mkv .avi .webm",Enabled=true},
    new Rule {Name="Word",Extensions=".doc .docx .docm .rtf .odt",Enabled=true},
    new Rule {Name="Excel",Extensions=".xls .xlsx .xlsm .csv .ods",Enabled=true},
@@ -61,12 +64,14 @@ namespace Aster {
  public class StateStore {
   public readonly string Root;
   public Settings Settings;
+  public bool HasLibraryData;
   public List<MoveRecord> Journal;
   readonly object gate = new object();
   readonly JavaScriptSerializer json = new JavaScriptSerializer {MaxJsonLength=int.MaxValue};
   public StateStore(string root) {
    Root=root; Directory.CreateDirectory(root);
    Settings=Read<Settings>("settings.json") ?? new Settings();
+   var savedLibrary=Read<List<LibraryItem>>("library.json");HasLibraryData=savedLibrary!=null;if(savedLibrary!=null)Settings.LibraryItems=savedLibrary;
    Journal=Read<List<MoveRecord>>("history.json") ?? new List<MoveRecord>();
   }
   T Read<T>(string file) where T:class {
@@ -80,7 +85,7 @@ namespace Aster {
    File.WriteAllText(temp,json.Serialize(data));
    if(File.Exists(path)) File.Replace(temp,path,null); else File.Move(temp,path);
   }
-  public void Save() { lock(gate) Write("settings.json",Settings); }
+  public void Save() { lock(gate){Write("library.json",Settings.LibraryItems);HasLibraryData=true;Write("settings.json",Settings);} }
   public void Record(string from,string to) {
    lock(gate) { Journal.Add(new MoveRecord {From=from,To=to,Time=DateTime.Now}); Write("history.json",Journal); }
   }
@@ -95,7 +100,11 @@ namespace Aster {
   public DateTime Modified {get;set;}
   public string Kind {get;set;}
   public string Context {get;set;}
-  public string Size {get {return IsDirectory ? "—" : Fs.Size(Bytes);}}
+  public string Collection {get;set;}
+  public bool Favorite {get;set;}
+  public bool Missing {get;set;}
+  public string Availability {get{return Missing?"Không tìm thấy file":"Sẵn sàng";}}
+  public string Size {get {return Missing?"—":IsDirectory ? "—" : Fs.Size(Bytes);}}
   public string Date {get {return Modified.ToString("dd/MM/yyyy  HH:mm");}}
   public string Glyph {get {return IsDirectory ? "\uF12B" : Kind=="Ảnh" ? "\uEB9F" : Kind=="Video" ? "\uE714" : Kind=="Âm thanh" ? "\uE8D6" : Kind=="File nén" ? "\uF012" : "\uE8A5";}}
   public string Accent {get {return IsDirectory ? "#7FA9FC" : Kind=="Ảnh" ? "#AE96F0" : Kind=="Video" ? "#F19DAD" : Kind=="Tài liệu" ? "#6ECBC4" : "#D9B77B";}}

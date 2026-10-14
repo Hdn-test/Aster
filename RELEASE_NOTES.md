@@ -1,18 +1,14 @@
-# Aster 0.2.0
+# Aster 0.3.0
 
-- Ba mục chính dễ thấy: **Ảnh · Office · Game**.
-- Office có Word, Excel, PowerPoint, PDF; phân loại vào `Office/Word`, `Office/Excel`…
-- Thư viện game chỉ hiển thị EXE/shortcut khởi chạy, bỏ qua texture, DLL và tài nguyên ingame. Thêm nguồn game riêng để nhận diện rõ hơn.
-- **Kho ứng dụng** nhận EXE, chia Ứng dụng / Game, thêm, mở và gỡ khỏi kho mà không xóa file gốc.
-- Icon lấy từ Windows, ứng dụng liên kết và file EXE.
-- Lịch sử gần đây chống trùng, có đường dẫn, loại, dung lượng và thời gian mở.
-- Ảnh xem trước lớn hơn; bấm ảnh hoặc nút Phóng to để xem trong cửa sổ rộng.
-- Back / Forward và Alt+Left / Alt+Right.
-- Cuộn theo pixel với chuyển động easing nhẹ.
-- Chọn bộ cài EXE/MSI, lọc bộ cài trên Desktop, mở trình gỡ ứng dụng đã cài.
-- Tác vụ lọc theo trạng thái và loại thao tác, có file hiện tại, nguồn và đích.
-- Dung lượng và phân loại có các bước hướng dẫn và thao tác rõ hơn.
-- Khởi động cùng Windows; thu nhỏ / đóng xuống khay hệ thống khi bật tùy chọn. Menu khay có Mở và Thoát.
+- Sửa lỗi thư viện mất mục khi đổi tab: **Đã lưu** được lưu lâu dài trong `library.json`; kết quả quét tách riêng và chỉ lưu khi chọn **Lưu mục đã chọn**.
+- Thêm/gỡ file, kéo thả, tên hiển thị, bộ sưu tập, yêu thích và tìm trong thư viện. Gỡ liên kết không xóa file gốc; file không còn ở vị trí cũ vẫn được liệt kê với trạng thái rõ ràng.
+- Kho ứng dụng thêm đổi tên hiển thị, đổi nhóm, tìm kiếm và mở vị trí.
+- Sửa căn giữa phần gần đây; hàng căn trái, metadata có cột cố định, tên dài được rút gọn. Bỏ phần chữ trang trí thừa ở góc chi tiết.
+- Góc chi tiết mặc định thu gọn, chỉ mở khi chọn file/thư mục. Bỏ mục Ứng dụng đã cài và nút Mở game dư thừa.
+- Bộ lọc Office/Word/Excel/PowerPoint/PDF có icon, giữ đúng giá trị lọc và font icon riêng.
+- Phân loại còn **5 nhóm** với nơi lưu riêng: Ảnh, Office, File nén, Video & âm thanh, Bộ cài.
+- Giải thích nguồn → nhóm → nơi lưu ngay trên màn hình, xem trước đường dẫn đích, chạy một lần hoặc theo dõi.
+- Chỉ phân loại file trực tiếp trong nguồn. **Không đi vào thư mục con, game hay dự án**, không phân loại EXE đã lưu vào Game. Aster cập nhật liên kết thư viện khi chính app di chuyển file.
 
-Windows 10/11 x64, .NET Framework 4.8. Một EXE portable; không cần XAML/config ngoài. Startup và tray mặc định tắt. Không tự chạy bộ cài, gỡ phần mềm hay chuyển dữ liệu cho đến khi người dùng chọn thao tác tương ứng.
+Một file `Aster.exe` portable cho Windows 10/11 x64 (.NET Framework 4.8). 52 kiểm tra dữ liệu + 49 kiểm tra WPF đã qua trên máy phát triển. Nhận diện game có nhiều launcher vẫn có thể cần chọn EXE thủ công.
 

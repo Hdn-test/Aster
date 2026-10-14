@@ -59,6 +59,21 @@ class CoreTests {
   string evil=Path.Combine(root,"evil.zip");using(var z=ZipFile.Open(evil,ZipArchiveMode.Create)){var entry=z.CreateEntry("../escaped.txt");using(var writer=new StreamWriter(entry.Open()))writer.Write("bad");}
   Throws(()=>ops.Unzip(evil,Path.Combine(root,"evil-output"),new Job()),"ZIP traversal rejected");Check(!File.Exists(Path.Combine(root,"escaped.txt")),"ZIP cannot write outside destination");
   var fresh=new StateStore(Path.Combine(root,"state"));Check(fresh.History().Count==store.History().Count,"History survives restart");
+  Check(LibraryState.Add(fresh.Settings,"Ảnh",new[]{Path.Combine(source,"vacation.jpg")})==1,"Manual image library add");
+  Check(LibraryState.Add(fresh.Settings,"Ảnh",new[]{Path.Combine(source,"vacation.jpg").ToUpperInvariant()})==0,"Persistent library prevents case-insensitive duplicates");
+  Check(LibraryState.Add(fresh.Settings,"Game",new[]{Path.Combine(source,"Games/MyGame/texture.png")})==0,"Game library rejects ingame images");
+  fresh.Settings.LibraryItems[0].Collection="Cá nhân";fresh.Settings.LibraryItems[0].Favorite=true;fresh.Save();var restarted=new StateStore(fresh.Root);Check(restarted.Settings.LibraryItems.Count==1&&restarted.Settings.LibraryItems[0].Favorite&&restarted.Settings.LibraryItems[0].Collection=="Cá nhân","Library and customization survive restart");
+  File.WriteAllText(Path.Combine(fresh.Root,"settings.json"),"{\"Version\":3,\"LibraryItems\":[]}");Check(new StateStore(fresh.Root).Settings.LibraryItems.Count==1,"Separate library store survives an old version rewriting settings");
+  string missingCopy=Path.Combine(source,"vacation.jpg");File.Move(missingCopy,missingCopy+".temporarily-moved");Check(LibraryState.Entries(restarted.Settings,"Ảnh").Count==1&&LibraryState.Entries(restarted.Settings,"Ảnh")[0].Missing,"Missing file remains in library until explicit removal");File.Move(missingCopy+".temporarily-moved",missingCopy);
+  LibraryState.Remove(restarted.Settings,"Ảnh",new[]{missingCopy});Check(restarted.Settings.LibraryItems.Count==0&&File.Exists(missingCopy),"Remove library link keeps original file");
+  var routes=SortRoute.Defaults();foreach(var route in routes)route.Destination=Path.Combine(root,"Routes",route.Category);Check(routes.Count==5,"Sorting has five main groups");
+  string portableGame=Path.Combine(root,"UntitledBundle");Put(portableGame,"play.exe","game");Put(portableGame,"texture.png","ingame");Throws(()=>FolderSorting.Plan(portableGame,routes,"UntitledBundle",new string[0],new string[0],true,CancellationToken.None),"Unnamed game bundle with EXE and images is protected without DLL markers");
+  var sort=FolderSorting.Plan(source,routes,"Downloads",new string[0],new string[0],true,CancellationToken.None);Check(sort.Count==3&&sort.All(p=>Path.GetDirectoryName(p.Source).Equals(source,StringComparison.OrdinalIgnoreCase)),"Sorting only touches files directly in source, never subfolders");
+  Check(sort.Any(p=>p.Destination==Path.Combine(root,"Routes","Office","Downloads","Word","notes.docx")),"Office route retains source and document format");
+  routes[0].Destination=Path.Combine(root,"Custom Photos");Check(FolderSorting.Plan(source,routes,"Downloads",new string[0],new string[0],false,CancellationToken.None).Any(p=>p.Destination==Path.Combine(root,"Custom Photos","vacation.jpg")),"Each category supports an independently assigned folder");
+  var filtered=FolderSorting.Plan(source,routes,"Downloads",new string[0],new[]{Path.Combine(source,"setup.exe")},false,CancellationToken.None);Check(filtered.Count==2,"Saved game EXE is excluded from auto sorting");
+  Throws(()=>FolderSorting.Plan(Path.Combine(source,"Games"),routes,"Games",new[]{Path.Combine(source,"Games")},new string[0],true,CancellationToken.None),"Explicit game root cannot be used as sorting source");
+  routes[1].Destination=routes[0].Destination;Throws(()=>FolderSorting.Plan(source,routes,"Downloads",new string[0],new string[0],true,CancellationToken.None),"Categories cannot share a destination and mix data");
   fresh.Settings.Font="Segoe UI Variable";fresh.Save();Check(new StateStore(fresh.Root).Settings.Font=="Segoe UI Variable","Settings round trip");
   Console.WriteLine("\n"+assertions+" assertions passed. Test sandbox: "+root);return 0;
  }catch(Exception e){Console.Error.WriteLine(e);return 1;}}
