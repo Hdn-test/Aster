@@ -1,0 +1,7 @@
+artifacts/
+dist/
+/Aster.exe
+/Aster-*.exe
+/Aster-portable.zip
+*.partial
+

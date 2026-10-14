@@ -1,0 +1,39 @@
+name: Build Windows EXE
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare test output
+        shell: pwsh
+        run: New-Item -ItemType Directory -Force artifacts | Out-Null
+      - name: Build standalone EXE
+        shell: pwsh
+        run: ./build.ps1
+      - name: File operation checks
+        shell: pwsh
+        run: ./test.ps1
+      - name: WPF interface checks
+        shell: pwsh
+        run: ./verify-ui.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Aster-Windows-x64
+          path: dist/Aster.exe
+      - name: Publish tagged release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$env:GITHUB_REF_NAME" dist/Aster.exe --repo "$env:GITHUB_REPOSITORY" --title "Aster $env:GITHUB_REF_NAME" --notes-file RELEASE_NOTES.md
+    permissions:
+      contents: write
+

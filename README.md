@@ -4,6 +4,8 @@ App Windows portable **0.2**. Ba mục chính **Ảnh · Office · Game**, cùng
 
 ## Mở app
 
+**[Tải Aster.exe](https://github.com/Hdn-test/Aster/releases/latest/download/Aster.exe)** · [Các bản phát hành](https://github.com/Hdn-test/Aster/releases)
+
 Tải hoặc chép **một file `Aster.exe`** từ GitHub Release rồi mở trực tiếp. Bản tại workspace có tên `Aster-0.2.exe` để không ghi đè phiên cũ đang mở. Giao diện và icon đã nhúng trong EXE; không cần giải nén, XAML hay config cạnh app. Windows 10/11 x64 có .NET Framework 4.8. Cấu hình và lịch sử được app tạo tại `%LOCALAPPDATA%\Aster` khi sử dụng.
 
 ## Những phần mới
